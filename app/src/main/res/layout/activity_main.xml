@@ -36,7 +36,7 @@
         android:id="@+id/writeToFile"
         android:layout_below="@+id/stopLoop"
         android:onClick="createFile"
-        android:backgroundTint="#ed3853"
+        android:backgroundTint="#38abed"
         android:textColor="#ffffff"/>
 
 

@@ -19,6 +19,7 @@ import com.punchthrough.bean.sdk.message.ScratchBank;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.sql.Timestamp;
@@ -153,7 +154,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     vals.add(d);
                     accel = result;
                     Date dNow = new Date( );
-                    SimpleDateFormat ft = new SimpleDateFormat("ssmmm");
+                    SimpleDateFormat ft = new SimpleDateFormat("ssSSS");
                     dates.add(Integer.parseInt(ft.format(dNow)));
 
 
@@ -169,7 +170,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 vals.add(d);
                 Log.v("result arr", vals.get(0)[0]+"");
                 Date dNow = new Date( );
-                SimpleDateFormat ft = new SimpleDateFormat("ssmmm");
+                SimpleDateFormat ft = new SimpleDateFormat("ssSSS");
                 dates.add(Integer.parseInt(ft.format(dNow)));
             }
         });
@@ -196,29 +197,37 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
     //function: copies the bytes received from the server int the retr_files folder
     public void createFile(View v) {
-        String youFilePath = Environment.getExternalStorageDirectory().toString()+"/lobstartestwithdate.txt";
+        String youFilePath = Environment.getExternalStorageDirectory().toString()+"/outputwrite1.txt";
         Log.v("FILEPATH", youFilePath);
         Log.v("first input", vals.get(0)[0]+"");
         Log.v("first date", dates.get(0)+"");
         File fout = new File(youFilePath);
-        FileOutputStream out = null;
+        //FileOutputStream out = null;
+        FileWriter outWriter = null;
         if (vals.size() > 0) {
             try {
-                out = new FileOutputStream(fout);
+          //      out = new FileOutputStream(fout);
+                outWriter = new FileWriter(fout);
                 int c;
-                //read in the file byte by byte
+                //read in the file byte by byteg
                 for (int i = 0; i < vals.size(); i++) {
-                    out.write((int)vals.get(i)[0]);
-                    Log.v("i is:", i+"");
+            //        out.write((int)vals.get(i)[0]);
+                    String s = dates.get(i)+ " " + vals.get(i)[0] + " " + vals.get(i)[1] + " " + vals.get(i)[2] + "\n";
+                    outWriter.write(s);
+                    Log.v("i is:", i + "");
                     Log.v("FIRST VAL IS", "" + (int) vals.get(i)[0]);
-                    out.write((int)vals.get(i)[1]);
-                    out.write((int)vals.get(i)[2]);
-                    out.write(dates.get(i));
+                    Log.v("dates", dates.get(i)+"");
+            //        out.write((int) vals.get(i)[1]);
+            //        out.write((int) vals.get(i)[2]);
+            //        out.write(dates.get(i));
+                    outWriter.flush();
+
                     //out.write((int)vals.get(i));
                 }
 
-                if (out != null) {
-                    out.close();
+                if (outWriter != null) {
+                    outWriter.close();
+
 //                    dataSocket.close();
                 }
             } catch (IOException theExcept) {
